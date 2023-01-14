@@ -1,10 +1,7 @@
 
 package Clases;
+// HOLA
 
-/**
- *
- * @author Arian
- */
 public class Clientes {
     private int[] CuentasDebito;
     private int[] CuentasCredito;
