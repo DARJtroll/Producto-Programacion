@@ -1,6 +1,6 @@
 
 package Clases;
-//esuna persona
+
 public class Persona {
     protected String Nombres;
     protected String Apellidos;
