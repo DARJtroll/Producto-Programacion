@@ -1,7 +1,7 @@
 
 package Clases;
 // HOLA
-//este es mi comenterio, soy sebas xd//
+//HOLAAAAAA coment 2
 public class Clientes {
     private int[] CuentasDebito;
     private int[] CuentasCredito;
