@@ -50,8 +50,8 @@ public class panel_MenuPrincipalE extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         LB_NombreE = new javax.swing.JLabel();
         BT_clienteNuevo = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        BT_editarPerfil = new javax.swing.JButton();
+        BT_CerrarSesion = new javax.swing.JButton();
+        BT_EditarPerfil = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -80,14 +80,14 @@ public class panel_MenuPrincipalE extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setFont(new java.awt.Font("Nirmala UI", 1, 14)); // NOI18N
-        jButton1.setText("Cerrar Sesion");
+        BT_CerrarSesion.setFont(new java.awt.Font("Nirmala UI", 1, 14)); // NOI18N
+        BT_CerrarSesion.setText("Cerrar Sesion");
 
-        BT_editarPerfil.setFont(new java.awt.Font("Nirmala UI", 1, 14)); // NOI18N
-        BT_editarPerfil.setText("Editar Perfil");
-        BT_editarPerfil.addActionListener(new java.awt.event.ActionListener() {
+        BT_EditarPerfil.setFont(new java.awt.Font("Nirmala UI", 1, 14)); // NOI18N
+        BT_EditarPerfil.setText("Editar Perfil");
+        BT_EditarPerfil.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_editarPerfilActionPerformed(evt);
+                BT_EditarPerfilActionPerformed(evt);
             }
         });
 
@@ -130,9 +130,9 @@ public class panel_MenuPrincipalE extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(LB_NombreE, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(BT_editarPerfil)
+                                        .addComponent(BT_EditarPerfil)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jButton1))))))
+                                        .addComponent(BT_CerrarSesion))))))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(BT_clienteNuevo)))
@@ -146,8 +146,8 @@ public class panel_MenuPrincipalE extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1)
-                            .addComponent(BT_editarPerfil))
+                            .addComponent(BT_CerrarSesion)
+                            .addComponent(BT_EditarPerfil))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(LB_NombreE)))
                 .addGap(68, 68, 68)
@@ -164,11 +164,22 @@ public class panel_MenuPrincipalE extends javax.swing.JFrame {
 
     private void BT_clienteNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_clienteNuevoActionPerformed
         // TODO add your handling code here:
+        panel_RegistrarCliente Registrador = new panel_RegistrarCliente();
+        Registrador.setVisible(true);
+        Registrador.RecibirMenu(this);
+        BT_CerrarSesion.setEnabled(false);
+        BT_EditarPerfil.setEnabled(false);
+        BT_clienteNuevo.setEnabled(false);
     }//GEN-LAST:event_BT_clienteNuevoActionPerformed
-
-    private void BT_editarPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_editarPerfilActionPerformed
+    public void ActivarBotones(){
+        BT_CerrarSesion.setEnabled(true);
+        BT_EditarPerfil.setEnabled(true);
+        BT_clienteNuevo.setEnabled(true);
+    }
+    
+    private void BT_EditarPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_EditarPerfilActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_BT_editarPerfilActionPerformed
+    }//GEN-LAST:event_BT_EditarPerfilActionPerformed
 
     /**
      * @param args the command line arguments
@@ -207,10 +218,10 @@ public class panel_MenuPrincipalE extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BT_CerrarSesion;
+    private javax.swing.JButton BT_EditarPerfil;
     private javax.swing.JButton BT_clienteNuevo;
-    private javax.swing.JButton BT_editarPerfil;
     private javax.swing.JLabel LB_NombreE;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
