@@ -22,6 +22,7 @@ public class panel_InicioSesion extends javax.swing.JFrame {
     Conexion CX = new Conexion();
     public panel_InicioSesion() {
         initComponents();
+        this.setLocationRelativeTo(null); // Ventana en el centro de la pantalla
     }
     
     /**

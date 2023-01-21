@@ -22,7 +22,7 @@ public class panel_MenuPrincipalE extends javax.swing.JFrame {
     Conexion CX = new Conexion();
     public panel_MenuPrincipalE() {
         initComponents();
-        
+        this.setLocationRelativeTo(null); // Ventana en el centro de la pantalla
     }
     
     public void AccesoEmpleado(String ID){
@@ -175,6 +175,9 @@ public class panel_MenuPrincipalE extends javax.swing.JFrame {
         BT_CerrarSesion.setEnabled(false);
         BT_EditarPerfil.setEnabled(false);
         BT_clienteNuevo.setEnabled(false);
+        if(evt.getSource()==BT_clienteNuevo){
+            this.setVisible(false);
+        }
     }//GEN-LAST:event_BT_clienteNuevoActionPerformed
     public void ActivarBotones(){
         BT_CerrarSesion.setEnabled(true);
@@ -188,7 +191,7 @@ public class panel_MenuPrincipalE extends javax.swing.JFrame {
 
     private void BT_CerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_CerrarSesionActionPerformed
         // TODO add your handling code here:
-        if(evt.getSource()==BT_CerrarSesion){
+        if(evt.getSource()==BT_CerrarSesion){// Evalua si se presiono el boton
             this.setVisible(false);
             new panel_InicioSesion().setVisible(true);
         }
