@@ -82,6 +82,11 @@ public class panel_MenuPrincipalE extends javax.swing.JFrame {
 
         BT_CerrarSesion.setFont(new java.awt.Font("Nirmala UI", 1, 14)); // NOI18N
         BT_CerrarSesion.setText("Cerrar Sesion");
+        BT_CerrarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_CerrarSesionActionPerformed(evt);
+            }
+        });
 
         BT_EditarPerfil.setFont(new java.awt.Font("Nirmala UI", 1, 14)); // NOI18N
         BT_EditarPerfil.setText("Editar Perfil");
@@ -180,6 +185,14 @@ public class panel_MenuPrincipalE extends javax.swing.JFrame {
     private void BT_EditarPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_EditarPerfilActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_BT_EditarPerfilActionPerformed
+
+    private void BT_CerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_CerrarSesionActionPerformed
+        // TODO add your handling code here:
+        if(evt.getSource()==BT_CerrarSesion){
+            this.setVisible(false);
+            new panel_InicioSesion().setVisible(true);
+        }
+    }//GEN-LAST:event_BT_CerrarSesionActionPerformed
 
     /**
      * @param args the command line arguments
