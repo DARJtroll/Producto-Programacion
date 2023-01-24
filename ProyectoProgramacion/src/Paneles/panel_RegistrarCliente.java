@@ -3,29 +3,35 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package Paneles;
+
 import Clases.*;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+
 /**
  *
  * @author Arian
  */
 public class panel_RegistrarCliente extends javax.swing.JFrame {
-    
+
     panel_MenuPrincipalE Menu;
     Conexion CX = new Conexion();
     Connection cn = CX.Conector();
+
     /**
      * Creates new form panel_RegistrarCliente
      */
     public panel_RegistrarCliente() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
-    public void RecibirMenu(panel_MenuPrincipalE panel){
+
+    public void RecibirMenu(panel_MenuPrincipalE panel) {
         this.Menu = panel;
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -54,6 +60,7 @@ public class panel_RegistrarCliente extends javax.swing.JFrame {
         TXT_NombreUsuario = new javax.swing.JTextField();
         TXT_Contraseña = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Registrar Usuario");
@@ -199,14 +206,25 @@ public class panel_RegistrarCliente extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jButton2.setText("Regresar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1))
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addComponent(jLabel1)
@@ -223,7 +241,9 @@ public class panel_RegistrarCliente extends javax.swing.JFrame {
                         .addGap(12, 12, 12)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(31, Short.MAX_VALUE))
         );
 
@@ -239,20 +259,20 @@ public class panel_RegistrarCliente extends javax.swing.JFrame {
         String Celular = TXT_Celular.getText();
         String Correo = TXT_Correo.getText();
         try {
-            String query = "INSERT INTO usuarios (nombres,apellidos,edad,dni,celular,correo) VALUES ('"+Nombres+"','"+Apellidos+"',"+Edad+","+DNI+","+Celular+",'"+Correo+"')";
+            String query = "INSERT INTO usuarios (nombres,apellidos,edad,dni,celular,correo) VALUES ('" + Nombres + "','" + Apellidos + "'," + Edad + "," + DNI + "," + Celular + ",'" + Correo + "')";
             PreparedStatement pss = cn.prepareStatement(query);
             pss.executeUpdate();
-            String query2 = "SELECT id FROM usuarios WHERE nombres ='"+Nombres+"' AND apellidos = '"+Apellidos+"' AND dni = "+DNI+"";
+            String query2 = "SELECT id FROM usuarios WHERE nombres ='" + Nombres + "' AND apellidos = '" + Apellidos + "' AND dni = " + DNI + "";
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(query2);
-            if(rs.next()){
+            if (rs.next()) {
                 String ID_User = rs.getString(1);
-                String query3 = "INSERT INTO clientes (nombreCliente,passCliente,conexUsuario) VALUES ('"+TXT_NombreUsuario.getText()+"','"+TXT_Contraseña.getText()+"',"+ID_User+")";
+                String query3 = "INSERT INTO clientes (nombreCliente,passCliente,conexUsuario) VALUES ('" + TXT_NombreUsuario.getText() + "','" + TXT_Contraseña.getText() + "'," + ID_User + ")";
                 pss = cn.prepareStatement(query3);
                 pss.executeUpdate();
-                JOptionPane.showMessageDialog(this,"Datos Incrustados"); 
-                }
-            
+                JOptionPane.showMessageDialog(this, "Datos Incrustados");
+            }
+
         } catch (SQLException ex) {
             Logger.getLogger(panel_MenuPrincipalE.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -260,8 +280,16 @@ public class panel_RegistrarCliente extends javax.swing.JFrame {
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         this.Menu.ActivarBotones();
-        
+
     }//GEN-LAST:event_formWindowClosed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        if (evt.getSource() == jButton2) {
+            this.setVisible(false);
+            new panel_MenuPrincipalE().setVisible(true);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -308,6 +336,7 @@ public class panel_RegistrarCliente extends javax.swing.JFrame {
     private javax.swing.JTextField TXT_Nombre;
     private javax.swing.JTextField TXT_NombreUsuario;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
