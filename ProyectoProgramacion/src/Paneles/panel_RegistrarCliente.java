@@ -16,9 +16,8 @@ import javax.swing.JOptionPane;
  */
 public class panel_RegistrarCliente extends javax.swing.JFrame {
 
-    panel_MenuPrincipalE Menu;
-    Conexion CX = new Conexion();
-    Connection cn = CX.Conector();
+    panel_MenuPrincipalEmpleado Menu;
+    Connection CN = null;
 
     /**
      * Creates new form panel_RegistrarCliente
@@ -28,8 +27,9 @@ public class panel_RegistrarCliente extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
     }
 
-    public void RecibirMenu(panel_MenuPrincipalE panel) {
+    public void RecibirMenu(panel_MenuPrincipalEmpleado panel,Connection cn) {
         this.Menu = panel;
+        this.CN = cn;
     }
 
     /**
@@ -260,21 +260,21 @@ public class panel_RegistrarCliente extends javax.swing.JFrame {
         String Correo = TXT_Correo.getText();
         try {
             String query = "INSERT INTO usuarios (nombres,apellidos,edad,dni,celular,correo) VALUES ('" + Nombres + "','" + Apellidos + "'," + Edad + "," + DNI + "," + Celular + ",'" + Correo + "')";
-            PreparedStatement pss = cn.prepareStatement(query);
+            PreparedStatement pss = CN.prepareStatement(query);
             pss.executeUpdate();
             String query2 = "SELECT id FROM usuarios WHERE nombres ='" + Nombres + "' AND apellidos = '" + Apellidos + "' AND dni = " + DNI + "";
-            Statement st = cn.createStatement();
+            Statement st = CN.createStatement();
             ResultSet rs = st.executeQuery(query2);
             if (rs.next()) {
                 String ID_User = rs.getString(1);
                 String query3 = "INSERT INTO clientes (nombreCliente,passCliente,conexUsuario) VALUES ('" + TXT_NombreUsuario.getText() + "','" + TXT_Contraseña.getText() + "'," + ID_User + ")";
-                pss = cn.prepareStatement(query3);
+                pss = CN.prepareStatement(query3);
                 pss.executeUpdate();
                 JOptionPane.showMessageDialog(this, "Datos Incrustados");
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(panel_MenuPrincipalE.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(panel_MenuPrincipalEmpleado.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -284,10 +284,12 @@ public class panel_RegistrarCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        
         if (evt.getSource() == jButton2) {
             this.setVisible(false);
-            new panel_MenuPrincipalE().setVisible(true);
+            Menu.ActivarBotones();
+            Menu.setVisible(true);
+            this.dispose();
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 

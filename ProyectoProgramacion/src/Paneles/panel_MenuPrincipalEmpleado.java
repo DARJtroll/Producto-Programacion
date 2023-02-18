@@ -5,9 +5,7 @@
 package Paneles;
 import Clases.*;
 import java.awt.Color;
-import java.sql.Statement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -16,13 +14,15 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Arian
  */
-public final class panel_MenuPrincipalE extends javax.swing.JFrame {
+public final class panel_MenuPrincipalEmpleado extends javax.swing.JFrame {
 
     /**
      * Creates new form panel_MenuPrincipal
      */
     static Conexion CX = new Conexion();
-    public panel_MenuPrincipalE() {
+    static Connection CN = CX.Conector();
+    static String ID_Cliente = "";
+    public panel_MenuPrincipalEmpleado() {
         initComponents();
 
         this.setLocationRelativeTo(null); // Ventana en el centro de la pantalla
@@ -40,41 +40,41 @@ public final class panel_MenuPrincipalE extends javax.swing.JFrame {
                 }
         };
         try {
-            
-            
-            
             modelo.addColumn("ID");
             modelo.addColumn("Usuario");
-            modelo.addColumn("N.C.Corrientes");
-            modelo.addColumn("N.C.Credito");
+            modelo.addColumn("N.C. Corrientes");
+            modelo.addColumn("N.C. Credito");
+            modelo.addColumn("N C. Ahorro");
             TB_tablaClientes.setModel(modelo);
             
             String SQL = "SELECT * FROM clientes";
-            Statement st = CX.Conector().createStatement();
+            Statement st = CN.createStatement();
             ResultSet rs = st.executeQuery(SQL);
-            String[] Datos = new String[4];
+            String[] Datos = new String[5];
             while(rs.next()){
                 Datos[0] = rs.getString(1);
                 Datos[1] = rs.getString(2);
                 Datos[2] = rs.getString(4);
                 Datos[3] = rs.getString(5);
+                Datos[4] = rs.getString(6);
                 modelo.addRow(Datos);
             }
+            
         } catch (SQLException ex) {
-            Logger.getLogger(panel_MenuPrincipalE.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(panel_MenuPrincipalEmpleado.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     public void AccesoEmpleado(String ID){
         try {
             String query = "SELECT * FROM usuarios WHERE id ="+ID+"";
-            Statement st = CX.Conector().createStatement();
+            Statement st = CN.createStatement();
             ResultSet rs = st.executeQuery(query);
             if (rs.next()){
                 String Nombre = rs.getString(2);
                 LB_NombreE.setText("Empleado: "+Nombre);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(panel_MenuPrincipalE.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(panel_MenuPrincipalEmpleado.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     /**
@@ -97,11 +97,11 @@ public final class panel_MenuPrincipalE extends javax.swing.JFrame {
         TXT_Usuario = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
         BT_crearCuenta = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        TB_Cuentas = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
+        BT_clienteOperar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sesion Empleado");
@@ -147,6 +147,9 @@ public final class panel_MenuPrincipalE extends javax.swing.JFrame {
             }
         });
 
+        jScrollPane2.setViewportBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        TB_tablaClientes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         TB_tablaClientes.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         TB_tablaClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -186,16 +189,6 @@ public final class panel_MenuPrincipalE extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Nirmala UI", 1, 18)); // NOI18N
         jLabel3.setText("Usuario :");
 
-        jButton1.setBackground(new java.awt.Color(0, 255, 102));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton1.setText("Cerrar");
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         BT_crearCuenta.setBackground(new java.awt.Color(0, 255, 102));
         BT_crearCuenta.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         BT_crearCuenta.setText("Crear");
@@ -208,7 +201,7 @@ public final class panel_MenuPrincipalE extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        TB_Cuentas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
                 {},
@@ -219,7 +212,7 @@ public final class panel_MenuPrincipalE extends javax.swing.JFrame {
 
             }
         ));
-        jScrollPane3.setViewportView(jTable1);
+        jScrollPane3.setViewportView(TB_Cuentas);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -235,15 +228,15 @@ public final class panel_MenuPrincipalE extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(37, 37, 37)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(0, 162, Short.MAX_VALUE))
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
                 .addContainerGap(27, Short.MAX_VALUE))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(49, 49, 49)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(BT_crearCuenta)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(46, 46, 46))
+                .addGap(105, 105, 105))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -255,16 +248,26 @@ public final class panel_MenuPrincipalE extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(BT_crearCuenta, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addComponent(BT_crearCuenta)
                 .addGap(20, 20, 20))
         );
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel4.setText("Lista de Clientes");
+
+        BT_clienteOperar.setFont(new java.awt.Font("Nirmala UI", 0, 24)); // NOI18N
+        BT_clienteOperar.setText("Operar");
+        BT_clienteOperar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        BT_clienteOperar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        BT_clienteOperar.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        BT_clienteOperar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        BT_clienteOperar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_clienteOperarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -274,9 +277,10 @@ public final class panel_MenuPrincipalE extends javax.swing.JFrame {
                 .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(688, 688, 688)
-                        .addComponent(BT_clienteNuevo)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(BT_clienteOperar)
+                        .addGap(18, 18, 18)
+                        .addComponent(BT_clienteNuevo))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel4)
@@ -292,7 +296,7 @@ public final class panel_MenuPrincipalE extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 489, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(38, 38, 38))
         );
@@ -309,13 +313,16 @@ public final class panel_MenuPrincipalE extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(LB_NombreE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(56, 56, 56)
-                .addComponent(BT_clienteNuevo)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(56, 56, 56)
+                        .addComponent(BT_clienteNuevo))
+                    .addComponent(BT_clienteOperar, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap(43, Short.MAX_VALUE))
         );
 
@@ -325,8 +332,8 @@ public final class panel_MenuPrincipalE extends javax.swing.JFrame {
     private void BT_clienteNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_clienteNuevoActionPerformed
         // TODO add your handling code here:
         panel_RegistrarCliente Registrador = new panel_RegistrarCliente();
+        Registrador.RecibirMenu(this,this.CN);
         Registrador.setVisible(true);
-        Registrador.RecibirMenu(this);
         BT_CerrarSesion.setEnabled(false);
         BT_EditarPerfil.setEnabled(false);
         BT_clienteNuevo.setEnabled(false);
@@ -354,18 +361,126 @@ public final class panel_MenuPrincipalE extends javax.swing.JFrame {
     }//GEN-LAST:event_BT_CerrarSesionActionPerformed
 
     private void BT_crearCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_crearCuentaActionPerformed
-        // TODO add your handling code here:
+        if("Cliente".equals(TXT_Usuario.getText())){
+            JOptionPane.showMessageDialog(this,"No selecciono ningun cliente","Cliente no seleccionado",JOptionPane.ERROR_MESSAGE);
+        } else {
+            panel_CrearCuentaCliente crearCliente = new panel_CrearCuentaCliente(CN);
+            crearCliente.RecibirConeccion(this);
+            crearCliente.RecibirCliente(ID_Cliente);
+            crearCliente.setVisible(true);
+        }
+        
+        
     }//GEN-LAST:event_BT_crearCuentaActionPerformed
 
     private void TB_tablaClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TB_tablaClientesMouseClicked
         // TODO add your handling code here:
         int selec = TB_tablaClientes.rowAtPoint(evt.getPoint());
         TXT_Usuario.setText(String.valueOf(TB_tablaClientes.getValueAt(selec,1)));
+        ID_Cliente= String.valueOf(TB_tablaClientes.getValueAt(selec,0));
+        DefaultTableModel modelo = new DefaultTableModel(){
+                @Override
+                public boolean isCellEditable(int row,int column){
+                    return false;   
+                }  
+        };
+        try {
+            modelo.addColumn("N° Cuenta");
+            modelo.addColumn("Monto");
+            TB_Cuentas.setModel(modelo);
+            //
+            //  Cuentas Corriente
+            //
+            String[] txCuentasCorriente = new String[2];
+            txCuentasCorriente[0] = "Cuentas";
+            txCuentasCorriente[1] = "Corriente";
+            modelo.addRow(txCuentasCorriente);
+            String SQL = "SELECT * FROM cuentasCorrientes WHERE conexCliente = "+ID_Cliente+" ";
+            Statement st = CN.createStatement();
+            ResultSet rs = st.executeQuery(SQL);
+            String[] Datos = new String[2];
+            while(rs.next()){
+                Datos[0] = rs.getString(2);
+                Datos[1] = rs.getString(3);
+                modelo.addRow(Datos);
+            }
+            /*
+                Cuentas Credito
+            */
+            txCuentasCorriente = new String[2];
+            txCuentasCorriente[0] = "Cuentas";
+            txCuentasCorriente[1] = "Credito";
+            modelo.addRow(txCuentasCorriente);
+            txCuentasCorriente[0] = "N° Cuenta";
+            txCuentasCorriente[1] = "Credito";
+            modelo.addRow(txCuentasCorriente);
+            SQL = "SELECT * FROM cuentasCredito WHERE conexCliente = "+ID_Cliente+" ";
+            st = CN.createStatement();
+            rs = st.executeQuery(SQL);
+            while(rs.next()){
+                Datos[0] = rs.getString(2);
+                Datos[1] = rs.getString(3);
+                modelo.addRow(Datos);
+            }
+            /*
+                Cuentas Ahorro
+            */
+            txCuentasCorriente = new String[2];
+            txCuentasCorriente[0] = "Cuentas";
+            txCuentasCorriente[1] = "Ahorro";
+            modelo.addRow(txCuentasCorriente);
+            txCuentasCorriente[0] = "N° Cuenta";
+            txCuentasCorriente[1] = "Deposito";
+            modelo.addRow(txCuentasCorriente);
+            SQL = "SELECT * FROM cuentasAhorro WHERE conexCliente = "+ID_Cliente+" ";
+            st = CN.createStatement();
+            rs = st.executeQuery(SQL);
+            while(rs.next()){
+                Datos[0] = rs.getString(2);
+                Datos[1] = rs.getString(3);
+                modelo.addRow(Datos);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(panel_MenuPrincipalEmpleado.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_TB_tablaClientesMouseClicked
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void BT_clienteOperarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_clienteOperarActionPerformed
+        Clientes cliente = null;
+        int idUsuario = 0,idCliente = 0,EdadCliente,dniCliente,celular;
+        String NombreCliente,UsuarioCliente,PassCliente,ApellidosCliente,Correo;
+        try {
+            String SQL = "SELECT * FROM clientes WHERE idCliente = "+ID_Cliente+" ";
+            Statement st = CN.createStatement();
+            ResultSet rs = st.executeQuery(SQL);
+            while (rs.next()){
+                idUsuario = Integer.parseInt(rs.getString(1));
+                UsuarioCliente = rs.getString(2);
+                PassCliente = rs.getString(3);
+                idCliente = Integer.parseInt(rs.getString(7));
+                
+                SQL = "SELECT * FROM usuarios WHERE id = "+ID_Cliente+" ";
+                st = CN.createStatement();
+                rs = st.executeQuery(SQL);
+                while(rs.next()){
+                    NombreCliente = rs.getString(2);
+                    ApellidosCliente = rs.getString(3);
+                    EdadCliente = Integer.parseInt(rs.getString(4));
+                    dniCliente = Integer.parseInt(rs.getString(5));
+                    celular = Integer.parseInt(rs.getString(6));
+                    Correo = rs.getString(7);
+                    cliente = new Clientes(0,0,UsuarioCliente,PassCliente,Integer.parseInt(ID_Cliente),NombreCliente,ApellidosCliente,EdadCliente,dniCliente,celular,Correo);
+                }
+                
+            }
+        } catch (Exception e) {
+        }
+        panel_OperarClienteE Operador = new panel_OperarClienteE();
+        Operador.recibirConec(CN);
+        Operador.recibirCliente(cliente);
+        Operador.setVisible(true);
+    }//GEN-LAST:event_BT_clienteOperarActionPerformed
 
 
     /**
@@ -385,21 +500,23 @@ public final class panel_MenuPrincipalE extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(panel_MenuPrincipalE.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(panel_MenuPrincipalEmpleado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(panel_MenuPrincipalE.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(panel_MenuPrincipalEmpleado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(panel_MenuPrincipalE.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(panel_MenuPrincipalEmpleado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(panel_MenuPrincipalE.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(panel_MenuPrincipalEmpleado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new panel_MenuPrincipalE().setVisible(true);
+                new panel_MenuPrincipalEmpleado().setVisible(true);
             }
         });
     }
@@ -408,11 +525,12 @@ public final class panel_MenuPrincipalE extends javax.swing.JFrame {
     private javax.swing.JButton BT_CerrarSesion;
     private javax.swing.JButton BT_EditarPerfil;
     private javax.swing.JButton BT_clienteNuevo;
+    private javax.swing.JButton BT_clienteOperar;
     private javax.swing.JButton BT_crearCuenta;
     private javax.swing.JLabel LB_NombreE;
+    private javax.swing.JTable TB_Cuentas;
     private javax.swing.JTable TB_tablaClientes;
     private javax.swing.JTextField TXT_Usuario;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -420,6 +538,5 @@ public final class panel_MenuPrincipalE extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }
