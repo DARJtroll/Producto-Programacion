@@ -1,4 +1,7 @@
-
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
 package Paneles;
 import Clases.*;
 import java.sql.Statement;
@@ -101,15 +104,11 @@ public class panel_InicioSesion extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(32, 32, 32)
+                .addGap(17, 17, 17)
                 .addComponent(RB_Empleado)
-                .addGap(26, 26, 26)
+                .addGap(18, 18, 18)
                 .addComponent(RB_Cliente)
-<<<<<<< Updated upstream
-                .addContainerGap(38, Short.MAX_VALUE))
-=======
                 .addContainerGap(61, Short.MAX_VALUE))
->>>>>>> Stashed changes
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -194,10 +193,11 @@ public class panel_InicioSesion extends javax.swing.JFrame {
                     if(rs.next()){
                         UsuarioCliente = Usuario;
                         PassCliente = Pass;
-                        String idCliente = rs.getString(7);
-                        query = "SELECT * FROM usuarios WHERE id = "+idCliente+"";
-                        st = CN.createStatement(); // Se paso de comentario a codigo
-                        ResultSet RS = st.executeQuery(query);
+                        String idUsuario = rs.getString(7);
+                        String IdCliente = rs.getString(1);
+                        String SQL = "SELECT * FROM usuarios WHERE id = "+idUsuario+"";
+                        st = CN.createStatement();
+                        ResultSet RS = st.executeQuery(SQL);
                         while(RS.next()){
                             IdUsuario = Integer.parseInt(RS.getString(1));
                             NombreCliente = RS.getString(2);
@@ -206,22 +206,18 @@ public class panel_InicioSesion extends javax.swing.JFrame {
                             dniCliente = Integer.parseInt(RS.getString(5));
                             celular = Integer.parseInt(RS.getString(6));
                             Correo = RS.getString(7);
-                            cliente = new Clientes(UsuarioCliente,PassCliente,Integer.parseInt(idCliente),IdUsuario,NombreCliente,ApellidosCliente,EdadCliente,dniCliente,celular,Correo);
-                            //System.out.print(cliente.getApellidos()+ " " + cliente.getNombres() );
+                            cliente = new Clientes(UsuarioCliente,PassCliente,Integer.parseInt(IdCliente),IdUsuario,NombreCliente,ApellidosCliente,EdadCliente,dniCliente,celular,Correo);
+                            System.out.print(cliente.getApellidos()+ " " + cliente.getNombres() );
                             panel_MenuPrincipalCliente MenCliente = new panel_MenuPrincipalCliente();
                             MenCliente.recibirDatos(CN, cliente);
                             MenCliente.setVisible(true);
                             this.setVisible(false);
                             
                         }
-                        panel_MenuPrincipalCliente InicioC = new panel_MenuPrincipalCliente();
-                        InicioC.setVisible(true);
-                        this.setVisible(false);
-                    }else{
-                        JOptionPane.showMessageDialog(this,"Datos Incorrectos, por favor intentelo nuevamente");
                     }
                 }
             }
+           
             
                 
         } catch (SQLException ex) {
