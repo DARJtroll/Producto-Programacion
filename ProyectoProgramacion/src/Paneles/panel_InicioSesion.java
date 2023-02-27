@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package Paneles;
 import Clases.*;
 import Paneles.cliente.panel_MenuPrincipalCliente; // para poder realizar el objeto de la clase panel_MenuPrincipalCliente
@@ -13,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import java.sql.*;
+import Paneles.cliente.*;
 /**
  *
  * @author Arian
@@ -109,7 +107,11 @@ public class panel_InicioSesion extends javax.swing.JFrame {
                 .addComponent(RB_Empleado)
                 .addGap(26, 26, 26)
                 .addComponent(RB_Cliente)
+<<<<<<< Updated upstream
                 .addContainerGap(38, Short.MAX_VALUE))
+=======
+                .addContainerGap(61, Short.MAX_VALUE))
+>>>>>>> Stashed changes
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -176,6 +178,10 @@ public class panel_InicioSesion extends javax.swing.JFrame {
                         InicioE.AccesoEmpleado(IdPersona);
                         InicioE.setVisible(true);
                         this.setVisible(false);
+                        
+                        /*
+                            Agregar una clase Empleado y enviarla al panel para poder editar los datos de forma mas sencilla sin llamar o pedir conexion a la base de datos en cada operacion
+                        */
                     }else{
                         JOptionPane.showMessageDialog(this,"Datos Incorrectos, por favor intentelo nuevamente");
                     }
@@ -185,9 +191,7 @@ public class panel_InicioSesion extends javax.swing.JFrame {
                     Statement st = CN.createStatement();
                     ResultSet rs = st.executeQuery(query);
                     String NombreCliente,ApellidosCliente,Correo,UsuarioCliente,PassCliente;
-                    int EdadCliente,dniCliente,celular;
-                    
-                        
+                    int EdadCliente,dniCliente,celular,IdUsuario;
                     Clientes cliente= null;
                     if(rs.next()){
                         UsuarioCliente = Usuario;
@@ -197,13 +201,20 @@ public class panel_InicioSesion extends javax.swing.JFrame {
                         st = CN.createStatement(); // Se paso de comentario a codigo
                         ResultSet RS = st.executeQuery(query);
                         while(RS.next()){
-                            NombreCliente = rs.getString(2);
-                            ApellidosCliente = rs.getString(3);
-                            EdadCliente = Integer.parseInt(rs.getString(4));
-                            dniCliente = Integer.parseInt(rs.getString(5));
-                            celular = Integer.parseInt(rs.getString(6));
-                            Correo = rs.getString(7);
-                            cliente = new Clientes(0,0,UsuarioCliente,PassCliente,Integer.parseInt(idCliente),NombreCliente,ApellidosCliente,EdadCliente,dniCliente,celular,Correo);
+                            IdUsuario = Integer.parseInt(RS.getString(1));
+                            NombreCliente = RS.getString(2);
+                            ApellidosCliente = RS.getString(3);
+                            EdadCliente = Integer.parseInt(RS.getString(4));
+                            dniCliente = Integer.parseInt(RS.getString(5));
+                            celular = Integer.parseInt(RS.getString(6));
+                            Correo = RS.getString(7);
+                            cliente = new Clientes(UsuarioCliente,PassCliente,Integer.parseInt(idCliente),IdUsuario,NombreCliente,ApellidosCliente,EdadCliente,dniCliente,celular,Correo);
+                            //System.out.print(cliente.getApellidos()+ " " + cliente.getNombres() );
+                            panel_MenuPrincipalCliente MenCliente = new panel_MenuPrincipalCliente();
+                            MenCliente.recibirDatos(CN, cliente);
+                            MenCliente.setVisible(true);
+                            this.setVisible(false);
+                            
                         }
                         panel_MenuPrincipalCliente InicioC = new panel_MenuPrincipalCliente();
                         InicioC.setVisible(true);

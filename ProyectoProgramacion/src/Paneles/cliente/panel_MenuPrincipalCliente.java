@@ -4,22 +4,65 @@
  */
 package Paneles.cliente;
 import Clases.*;
+import Paneles.panel_InicioSesion;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author Arian
  */
 public class panel_MenuPrincipalCliente extends javax.swing.JFrame {
-
+    private static Connection CN = null;
+    private static Clientes cliente = null;
+    private static panel_DepositarRetirar panelDeRe= null;
+    private static ArrayList<CuentaCorriente> ListaC = new ArrayList<>();
+    private static int select = -1;
     /**
      * Creates new form panel_MenuPrincipalCliente
      */
     public panel_MenuPrincipalCliente() {
         initComponents();
+<<<<<<< Updated upstream
         this.setLocationRelativeTo(null);
+=======
+        this.setLocationRelativeTo(null); // Ventana en el centro de la pantalla
+>>>>>>> Stashed changes
     }
     public void recibirDatos(Connection CN, Clientes client){
+        this.CN = CN;
+        this.cliente = client;
+        LB_Nombre.setText(cliente.getNombres()+" "+ cliente.getApellidos());
+        DefaultTableModel modelo = new DefaultTableModel(){
+                @Override
+                public boolean isCellEditable(int row,int column){
+                    return false;   
+                }
+                
+        };
+        modelo.addColumn("Numero de Cuenta");
+        modelo.addColumn("Monto");
+        TB_Cuentas.setModel(modelo);
         
+        try {
+            String[] fila = new String[2];
+            String sql = "SELECT * FROM cuentasCorrientes WHERE conexCliente = "+this.cliente.getIdCliente()+"";
+            Statement ST = CN.createStatement();
+            ResultSet RS = ST.executeQuery(sql);
+            while(RS.next()){
+                int nCuenta = Integer.parseInt(RS.getString(2));
+                double monto = Double.parseDouble(RS.getString(3));
+                fila[0] = RS.getString(2); fila[1] = RS.getString(3);
+                CuentaCorriente Cuen = new CuentaCorriente(this.cliente,nCuenta,monto);
+                ListaC.add(Cuen);
+                modelo.addRow(fila);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(panel_InicioSesion.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -33,29 +76,37 @@ public class panel_MenuPrincipalCliente extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
+        LB_Nombre = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        TB_Cuentas = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Comic Sans MS", 1, 24)); // NOI18N
         jLabel1.setText("Bienvenido a su cuenta:  ");
 
         jButton1.setFont(new java.awt.Font("Nirmala UI", 0, 24)); // NOI18N
         jButton1.setText("Depositar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setFont(new java.awt.Font("Nirmala UI", 0, 24)); // NOI18N
         jButton2.setText("Retirar");
 
-        jLabel2.setFont(new java.awt.Font("Comic Sans MS", 0, 24)); // NOI18N
-        jLabel2.setText("Nombre");
+        LB_Nombre.setFont(new java.awt.Font("Comic Sans MS", 0, 24)); // NOI18N
+        LB_Nombre.setText("Nombre");
 
         jButton3.setFont(new java.awt.Font("Nirmala UI", 0, 24)); // NOI18N
         jButton3.setText("Cerrar ");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        TB_Cuentas.setBackground(new java.awt.Color(204, 255, 255));
+        TB_Cuentas.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        TB_Cuentas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
                 {},
@@ -66,12 +117,13 @@ public class panel_MenuPrincipalCliente extends javax.swing.JFrame {
 
             }
         ));
-        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+        TB_Cuentas.setGridColor(new java.awt.Color(243, 243, 243));
+        TB_Cuentas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable1MouseClicked(evt);
+                TB_CuentasMouseClicked(evt);
             }
         });
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane2.setViewportView(TB_Cuentas);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -83,7 +135,7 @@ public class panel_MenuPrincipalCliente extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(LB_Nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 521, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -100,7 +152,7 @@ public class panel_MenuPrincipalCliente extends javax.swing.JFrame {
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jLabel2))
+                    .addComponent(LB_Nombre))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(92, 92, 92)
@@ -119,9 +171,27 @@ public class panel_MenuPrincipalCliente extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        
-    }//GEN-LAST:event_jTable1MouseClicked
+    private void TB_CuentasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TB_CuentasMouseClicked
+        select = TB_Cuentas.rowAtPoint(evt.getPoint()); //Agarra el indice del objeto que seleccionamos en la tabla
+        System.out.println(select);
+    }//GEN-LAST:event_TB_CuentasMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if(select != -1){
+            if (panelDeRe == null){
+                panel_DepositarRetirar Deposito = new panel_DepositarRetirar();
+                panelDeRe = Deposito;
+                panelDeRe.setMenu(this);
+                panelDeRe.RecibirDatos(0,ListaC.get(select));
+                panelDeRe.mostrarPanel();
+            }else{
+                panelDeRe.RecibirDatos(0,ListaC.get(select));
+                panelDeRe.mostrarPanel();
+            }
+        }else{
+            JOptionPane.showMessageDialog(this,"No escogio una Cuenta Corriente","Error No Escogio",JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -159,12 +229,12 @@ public class panel_MenuPrincipalCliente extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel LB_Nombre;
+    private javax.swing.JTable TB_Cuentas;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }
