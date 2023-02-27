@@ -4,6 +4,8 @@
  */
 package Paneles;
 import Clases.*;
+import Paneles.cliente.panel_MenuPrincipalCliente; // para poder realizar el objeto de la clase panel_MenuPrincipalCliente
+
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -46,7 +48,6 @@ public class panel_InicioSesion extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         RB_Empleado = new javax.swing.JRadioButton();
         RB_Cliente = new javax.swing.JRadioButton();
-        RB_Administrador = new javax.swing.JRadioButton();
         PF_contra = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -90,41 +91,25 @@ public class panel_InicioSesion extends javax.swing.JFrame {
             }
         });
 
-        BG_TipoIngreso.add(RB_Administrador);
-        RB_Administrador.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        RB_Administrador.setText("Administrador");
-        RB_Administrador.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RB_AdministradorActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(RB_Cliente)
-                            .addComponent(RB_Empleado)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(RB_Administrador)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(RB_Cliente)
+                    .addComponent(RB_Empleado))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(17, 17, 17)
+                .addGap(32, 32, 32)
                 .addComponent(RB_Empleado)
-                .addGap(18, 18, 18)
+                .addGap(26, 26, 26)
                 .addComponent(RB_Cliente)
-                .addGap(18, 18, 18)
-                .addComponent(RB_Administrador)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -209,7 +194,7 @@ public class panel_InicioSesion extends javax.swing.JFrame {
                         PassCliente = Pass;
                         String idCliente = rs.getString(7);
                         query = "SELECT * FROM usuarios WHERE id = "+idCliente+"";
-                        //st = CN.createStatement();
+                        st = CN.createStatement(); // Se paso de comentario a codigo
                         ResultSet RS = st.executeQuery(query);
                         while(RS.next()){
                             NombreCliente = rs.getString(2);
@@ -220,10 +205,14 @@ public class panel_InicioSesion extends javax.swing.JFrame {
                             Correo = rs.getString(7);
                             cliente = new Clientes(0,0,UsuarioCliente,PassCliente,Integer.parseInt(idCliente),NombreCliente,ApellidosCliente,EdadCliente,dniCliente,celular,Correo);
                         }
+                        panel_MenuPrincipalCliente InicioC = new panel_MenuPrincipalCliente();
+                        InicioC.setVisible(true);
+                        this.setVisible(false);
+                    }else{
+                        JOptionPane.showMessageDialog(this,"Datos Incorrectos, por favor intentelo nuevamente");
                     }
                 }
             }
-           
             
                 
         } catch (SQLException ex) {
@@ -238,10 +227,6 @@ public class panel_InicioSesion extends javax.swing.JFrame {
     private void RB_ClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RB_ClienteActionPerformed
         this.Opcion = 1;
     }//GEN-LAST:event_RB_ClienteActionPerformed
-
-    private void RB_AdministradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RB_AdministradorActionPerformed
-        this.Opcion = 2;
-    }//GEN-LAST:event_RB_AdministradorActionPerformed
 
     /**
      * @param args the command line arguments
@@ -284,7 +269,6 @@ public class panel_InicioSesion extends javax.swing.JFrame {
     private javax.swing.JButton BT_IniciarSesion;
     private javax.swing.JLabel LB_Password;
     private javax.swing.JPasswordField PF_contra;
-    private javax.swing.JRadioButton RB_Administrador;
     private javax.swing.JRadioButton RB_Cliente;
     private javax.swing.JRadioButton RB_Empleado;
     private javax.swing.JTextField TXT_user;

@@ -16,6 +16,7 @@ public class panel_MenuPrincipalCliente extends javax.swing.JFrame {
      */
     public panel_MenuPrincipalCliente() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
     public void recibirDatos(Connection CN, Clientes client){
         

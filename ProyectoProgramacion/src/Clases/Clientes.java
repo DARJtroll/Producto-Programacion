@@ -1,8 +1,5 @@
 
 package Clases;
-// HOLA
-//HOLAAAAAA coment 2
-//A VER SI TE GENERA ALGUN PROBLEMA
 
 public class Clientes extends Persona{
     private int nCuentasCorriente;

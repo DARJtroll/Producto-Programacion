@@ -349,6 +349,8 @@ public final class panel_MenuPrincipalEmpleado extends javax.swing.JFrame {
     
     private void BT_EditarPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_EditarPerfilActionPerformed
         // TODO add your handling code here:
+        this.setVisible(false);
+        new panel_ModificarPerfil().setVisible(true);
     }//GEN-LAST:event_BT_EditarPerfilActionPerformed
 
 
@@ -480,6 +482,7 @@ public final class panel_MenuPrincipalEmpleado extends javax.swing.JFrame {
         Operador.recibirConec(CN);
         Operador.recibirCliente(cliente);
         Operador.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_BT_clienteOperarActionPerformed
 
 

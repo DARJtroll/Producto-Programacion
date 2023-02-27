@@ -21,6 +21,7 @@ public class panel_OperarClienteE extends javax.swing.JFrame {
      */
     public panel_OperarClienteE() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
     
     public void recibirConec(Connection CN){
@@ -46,6 +47,7 @@ public class panel_OperarClienteE extends javax.swing.JFrame {
         LB_Cliente1 = new javax.swing.JLabel();
         LB_Cliente2 = new javax.swing.JLabel();
         LB_NombreCliente = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -78,6 +80,13 @@ public class panel_OperarClienteE extends javax.swing.JFrame {
         LB_NombreCliente.setFont(new java.awt.Font("Nirmala UI", 0, 24)); // NOI18N
         LB_NombreCliente.setText("Nombre Completo");
 
+        jButton1.setText("REGRESAR");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -96,6 +105,10 @@ public class panel_OperarClienteE extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 560, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(57, 57, 57))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(82, 82, 82)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -108,7 +121,9 @@ public class panel_OperarClienteE extends javax.swing.JFrame {
                     .addComponent(LB_NombreCliente))
                 .addGap(65, 65, 65)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(80, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -124,6 +139,14 @@ public class panel_OperarClienteE extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        if(evt.getSource()==jButton1){
+            this.setVisible(false);
+            new panel_MenuPrincipalEmpleado().setVisible(true);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
     public void ActualizarTabla(){
         DefaultTableModel modelo = new DefaultTableModel(){
                 @Override
@@ -233,6 +256,7 @@ public class panel_OperarClienteE extends javax.swing.JFrame {
     private javax.swing.JLabel LB_NombreCliente;
     private javax.swing.JLabel LB_UsuarioCliente;
     private javax.swing.JTable TB_Cuentas;
+    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
