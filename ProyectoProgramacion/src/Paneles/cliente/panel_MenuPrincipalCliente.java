@@ -26,11 +26,11 @@ public class panel_MenuPrincipalCliente extends javax.swing.JFrame {
      */
     public panel_MenuPrincipalCliente() {
         initComponents();
-<<<<<<< Updated upstream
+
         this.setLocationRelativeTo(null);
-=======
+
         this.setLocationRelativeTo(null); // Ventana en el centro de la pantalla
->>>>>>> Stashed changes
+
     }
     public void recibirDatos(Connection CN, Clientes client){
         this.CN = CN;

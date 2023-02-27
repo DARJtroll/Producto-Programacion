@@ -1,8 +1,6 @@
 
 package Paneles;
 import Clases.*;
-import Paneles.cliente.panel_MenuPrincipalCliente; // para poder realizar el objeto de la clase panel_MenuPrincipalCliente
-
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
