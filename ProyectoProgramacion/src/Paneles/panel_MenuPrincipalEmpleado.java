@@ -296,7 +296,7 @@ public final class panel_MenuPrincipalEmpleado extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 489, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(38, 38, 38))
         );
@@ -450,7 +450,7 @@ public final class panel_MenuPrincipalEmpleado extends javax.swing.JFrame {
 
     private void BT_clienteOperarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_clienteOperarActionPerformed
         Clientes cliente = null;
-        int idUsuario = 0,idCliente = 0,EdadCliente,dniCliente,celular;
+        int idUsuario = 0,idCliente = 0,EdadCliente,dniCliente,celular,IdUsuario;
         String NombreCliente,UsuarioCliente,PassCliente,ApellidosCliente,Correo;
         try {
             String SQL = "SELECT * FROM clientes WHERE idCliente = "+ID_Cliente+" ";
@@ -466,13 +466,14 @@ public final class panel_MenuPrincipalEmpleado extends javax.swing.JFrame {
                 st = CN.createStatement();
                 rs = st.executeQuery(SQL);
                 while(rs.next()){
+                    IdUsuario = Integer.parseInt(rs.getString(1));
                     NombreCliente = rs.getString(2);
                     ApellidosCliente = rs.getString(3);
                     EdadCliente = Integer.parseInt(rs.getString(4));
                     dniCliente = Integer.parseInt(rs.getString(5));
                     celular = Integer.parseInt(rs.getString(6));
                     Correo = rs.getString(7);
-                    cliente = new Clientes(0,0,UsuarioCliente,PassCliente,Integer.parseInt(ID_Cliente),NombreCliente,ApellidosCliente,EdadCliente,dniCliente,celular,Correo);
+                    cliente = new Clientes(UsuarioCliente,PassCliente,Integer.parseInt(ID_Cliente),IdUsuario,NombreCliente,ApellidosCliente,EdadCliente,dniCliente,celular,Correo);
                 }
                 
             }

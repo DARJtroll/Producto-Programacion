@@ -165,7 +165,7 @@ public class panel_OperarClienteE extends javax.swing.JFrame {
             txCuentasCorriente[0] = "Cuentas";
             txCuentasCorriente[1] = "Corriente";
             modelo.addRow(txCuentasCorriente);
-            String SQL = "SELECT * FROM cuentasCorrientes WHERE conexCliente = "+Cliente.getId()+" ";
+            String SQL = "SELECT * FROM cuentasCorrientes WHERE conexCliente = "+Cliente.getIdCliente()+" ";
             Statement st = CN.createStatement();
             ResultSet rs = st.executeQuery(SQL);
             String[] Datos = new String[2];
@@ -184,7 +184,7 @@ public class panel_OperarClienteE extends javax.swing.JFrame {
             txCuentasCorriente[0] = "N° Cuenta";
             txCuentasCorriente[1] = "Credito";
             modelo.addRow(txCuentasCorriente);
-            SQL = "SELECT * FROM cuentasCredito WHERE conexCliente = "+Cliente.getId()+" ";
+            SQL = "SELECT * FROM cuentasCredito WHERE conexCliente = "+Cliente.getIdCliente()+" ";
             st = CN.createStatement();
             rs = st.executeQuery(SQL);
             while(rs.next()){
@@ -202,7 +202,7 @@ public class panel_OperarClienteE extends javax.swing.JFrame {
             txCuentasCorriente[0] = "N° Cuenta";
             txCuentasCorriente[1] = "Deposito";
             modelo.addRow(txCuentasCorriente);
-            SQL = "SELECT * FROM cuentasAhorro WHERE conexCliente = "+Cliente.getId()+" ";
+            SQL = "SELECT * FROM cuentasAhorro WHERE conexCliente = "+Cliente.getIdCliente()+" ";
             st = CN.createStatement();
             rs = st.executeQuery(SQL);
             while(rs.next()){
