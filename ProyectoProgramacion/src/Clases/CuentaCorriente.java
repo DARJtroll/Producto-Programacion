@@ -37,6 +37,7 @@ public class CuentaCorriente {
             JOptionPane.showMessageDialog(null,"El monto de retiro no puede ser 0");
         }else{
             this.monto = this.monto - retiro;
+            JOptionPane.showMessageDialog(null,"El monto actual en la cuenta es: "+this.monto);
         }
     }
 }

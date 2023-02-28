@@ -4,7 +4,14 @@
  */
 package Paneles.cliente;
 import Clases.*;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 import javax.swing.border.LineBorder;
+
+import com.mysql.cj.x.protobuf.MysqlxCrud.Update;
 /**
  *
  * @author Arian
@@ -13,6 +20,9 @@ public class panel_DepositarRetirar extends javax.swing.JFrame {
     static int Accion = 0;
     static CuentaCorriente Cuenta = null;
     static panel_MenuPrincipalCliente Menu = null;
+    Conexion CX = new Conexion();
+    Connection CN = CX.Conector();
+    
     /**
      * Creates new form panel_DepositarRetirar
      */
@@ -84,7 +94,12 @@ public class panel_DepositarRetirar extends javax.swing.JFrame {
         BT_Accion.setText("Depositar");
         BT_Accion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_AccionActionPerformed(evt);
+                try {
+                    BT_AccionActionPerformed(evt);
+                } catch (SQLException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -146,14 +161,25 @@ public class panel_DepositarRetirar extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void BT_AccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_AccionActionPerformed
+    private void BT_AccionActionPerformed(java.awt.event.ActionEvent evt) throws SQLException {//GEN-FIRST:event_BT_AccionActionPerformed
         double monto = Double.parseDouble(TXT_monto.getText());
         switch (this.Accion) {
             case 0 ->{
                 Cuenta.Depositar(monto);
+                String query = "update cuentasCorrientes set monto = ? where numeroCuenta = ?";
+                PreparedStatement ps = CN.prepareStatement(query);
+                ps.setDouble(1, Cuenta.getMonto());
+                ps.setInt(2, Cuenta.getNumeroC());
+                int ejecutar = ps.executeUpdate();
+
             }
             case 1->{
                 Cuenta.Retirar(monto);
+                String query = "update cuentasCorrientes set monto = ? where numeroCuenta = ?";
+                PreparedStatement ps = CN.prepareStatement(query);
+                ps.setDouble(1, Cuenta.getMonto());
+                ps.setInt(2, Cuenta.getNumeroC());
+                int ejecutar = ps.executeUpdate();
             }
         }
     }//GEN-LAST:event_BT_AccionActionPerformed
