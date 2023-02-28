@@ -457,7 +457,8 @@ public final class panel_MenuPrincipalEmpleado extends javax.swing.JFrame {
                 }
                 
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException | SQLException e) {
+            System.out.println(e);
         }
         panel_OperarClienteE Operador = new panel_OperarClienteE();
         Operador.recibirConec(CN);

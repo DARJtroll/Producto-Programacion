@@ -148,6 +148,8 @@ public class panel_OperarClienteE extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
     public void ActualizarTabla(){
+        LB_UsuarioCliente.setText(Cliente.getNombreCliente());
+        LB_NombreCliente.setText(Cliente.getNombres()+" "+Cliente.getApellidos());
         DefaultTableModel modelo = new DefaultTableModel(){
                 @Override
                 public boolean isCellEditable(int row,int column){
@@ -162,8 +164,8 @@ public class panel_OperarClienteE extends javax.swing.JFrame {
             //  Cuentas Corriente
             //
             String[] txCuentasCorriente = new String[2];
-            txCuentasCorriente[0] = "Cuentas";
-            txCuentasCorriente[1] = "Corriente";
+            txCuentasCorriente[0] = "Cuentas Corriente";
+            txCuentasCorriente[1] = "-----------------";
             modelo.addRow(txCuentasCorriente);
             String SQL = "SELECT * FROM cuentasCorrientes WHERE conexCliente = "+Cliente.getIdCliente()+" ";
             Statement st = CN.createStatement();
@@ -178,8 +180,8 @@ public class panel_OperarClienteE extends javax.swing.JFrame {
                 Cuentas Credito
             */
             txCuentasCorriente = new String[2];
-            txCuentasCorriente[0] = "Cuentas";
-            txCuentasCorriente[1] = "Credito";
+            txCuentasCorriente[0] = "Cuentas Credito";
+            txCuentasCorriente[1] = "-----------------";
             modelo.addRow(txCuentasCorriente);
             txCuentasCorriente[0] = "N° Cuenta";
             txCuentasCorriente[1] = "Credito";
