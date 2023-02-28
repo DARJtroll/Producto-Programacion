@@ -205,6 +205,20 @@ public class panel_MenuPrincipalCliente extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        if(select != -1){
+            if (panelDeRe == null){
+                panel_DepositarRetirar Retiro = new panel_DepositarRetirar();
+                panelDeRe = Retiro;
+                panelDeRe.setMenu(this);
+                panelDeRe.RecibirDatos(1,ListaC.get(select));
+                panelDeRe.mostrarPanel();
+            }else{
+                panelDeRe.RecibirDatos(1,ListaC.get(select));
+                panelDeRe.mostrarPanel();
+            }
+        }else{
+            JOptionPane.showMessageDialog(this,"No escogio una Cuenta Corriente","Error No Escogio",JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed

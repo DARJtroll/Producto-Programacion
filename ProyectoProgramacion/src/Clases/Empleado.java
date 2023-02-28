@@ -13,11 +13,6 @@ public class Empleado extends Persona{
         this.idEmpleado = idEmpleado;
     }
 
-
-
-    
-    
-
     public String getPassEmpleado() {
         return passEmpleado;
     }

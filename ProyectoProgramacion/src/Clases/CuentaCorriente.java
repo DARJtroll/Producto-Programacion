@@ -27,12 +27,14 @@ public class CuentaCorriente {
     }
     public void Depositar(double deposito){
         this.monto = this.monto + deposito;
-        
+        JOptionPane.showMessageDialog(null,"El monto actual en la cuenta es: "+this.monto);
     }
     
     public void Retirar(double retiro){
         if(retiro > this.monto){
             JOptionPane.showMessageDialog(null,"El monto de retiro excede al monto actual en la cuenta");
+        }else if (retiro == 0){
+            JOptionPane.showMessageDialog(null,"El monto de retiro no puede ser 0");
         }else{
             this.monto = this.monto - retiro;
         }

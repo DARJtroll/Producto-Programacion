@@ -149,10 +149,10 @@ public class panel_DepositarRetirar extends javax.swing.JFrame {
     private void BT_AccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_AccionActionPerformed
         double monto = Double.parseDouble(TXT_monto.getText());
         switch (this.Accion) {
-            case 1 ->{
+            case 0 ->{
                 Cuenta.Depositar(monto);
             }
-            case 2->{
+            case 1->{
                 Cuenta.Retirar(monto);
             }
         }

@@ -13,9 +13,6 @@ public class Clientes extends Persona{
         this.IdCliente = Id;
     }
 
- 
-
-
     public String getNombreCliente() {
         return nombreCliente;
     }
