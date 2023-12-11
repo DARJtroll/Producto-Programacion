@@ -35,34 +35,7 @@ public class panel_MenuPrincipalCliente extends javax.swing.JFrame {
     public void recibirDatos(Connection CN, Clientes client){
         this.CN = CN;
         this.cliente = client;
-        LB_Nombre.setText(cliente.getNombres()+" "+ cliente.getApellidos());
-        DefaultTableModel modelo = new DefaultTableModel(){
-                @Override
-                public boolean isCellEditable(int row,int column){
-                    return false;   
-                }
-                
-        };
-        modelo.addColumn("Numero de Cuenta");
-        modelo.addColumn("Monto");
-        TB_Cuentas.setModel(modelo);
-        
-        try {
-            String[] fila = new String[2];
-            String sql = "SELECT * FROM cuentasCorrientes WHERE conexCliente = "+this.cliente.getIdCliente()+"";
-            Statement ST = CN.createStatement();
-            ResultSet RS = ST.executeQuery(sql);
-            while(RS.next()){
-                int nCuenta = Integer.parseInt(RS.getString(2));
-                double monto = Double.parseDouble(RS.getString(3));
-                fila[0] = RS.getString(2); fila[1] = RS.getString(3);
-                CuentaCorriente Cuen = new CuentaCorriente(this.cliente,nCuenta,monto);
-                ListaC.add(Cuen);
-                modelo.addRow(fila);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(panel_InicioSesion.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        ActualizarTabla();
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -228,7 +201,36 @@ public class panel_MenuPrincipalCliente extends javax.swing.JFrame {
             new panel_InicioSesion().setVisible(true);
         }
     }//GEN-LAST:event_jButton3ActionPerformed
-
+    public void ActualizarTabla(){
+        LB_Nombre.setText(cliente.getNombres()+" "+ cliente.getApellidos());
+        DefaultTableModel modelo = new DefaultTableModel(){
+                @Override
+                public boolean isCellEditable(int row,int column){
+                    return false;   
+                }
+                
+        };
+        modelo.addColumn("Numero de Cuenta");
+        modelo.addColumn("Monto");
+        TB_Cuentas.setModel(modelo);
+        
+        try {
+            String[] fila = new String[2];
+            String sql = "SELECT * FROM cuentasCorrientes WHERE conexCliente = "+this.cliente.getIdCliente()+"";
+            Statement ST = CN.createStatement();
+            ResultSet RS = ST.executeQuery(sql);
+            while(RS.next()){
+                int nCuenta = Integer.parseInt(RS.getString(2));
+                double monto = Double.parseDouble(RS.getString(3));
+                fila[0] = RS.getString(2); fila[1] = RS.getString(3);
+                CuentaCorriente Cuen = new CuentaCorriente(this.cliente,nCuenta,monto);
+                ListaC.add(Cuen);
+                modelo.addRow(fila);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(panel_InicioSesion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     /**
      * @param args the command line arguments
      */
